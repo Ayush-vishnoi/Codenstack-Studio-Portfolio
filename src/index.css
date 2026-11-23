@@ -1,0 +1,240 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-paper: #f8f7f4; /* warm off-white page background */
+  --color-navy: #0f172a;
+  --color-navy-2: #1e1b4b;
+  --color-mint: #2dd4bf; /* brand teal */
+  --color-iris: #6366f1; /* brand purple */
+  --color-violet: #8b5cf6; /* logo stack gradient start */
+  --color-ink: #334155; /* body text */
+  --color-muted: #64748b; /* secondary text */
+  --font-sans: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --spacing-18: 4.5rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    color-scheme: light;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--color-mint) 40%, transparent);
+    color: var(--color-navy);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-iris);
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  /* Primary: brand teal → purple, with dark text for contrast */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(105deg, #14b8a6, var(--color-iris));
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.25),
+      0 1px 2px rgb(15 23 42 / 0.15),
+      0 8px 20px -10px color-mix(in oklab, var(--color-iris) 80%, transparent);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      filter 0.2s ease;
+  }
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    filter: saturate(1.1) brightness(1.04);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.25),
+      0 12px 26px -10px color-mix(in oklab, #14b8a6 80%, transparent);
+  }
+  .btn-primary:disabled {
+    opacity: 0.7;
+    cursor: progress;
+  }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    color: var(--color-navy);
+    border: 1.5px solid #cbd5e1;
+    background: #fff;
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease,
+      color 0.2s ease;
+  }
+  .btn-secondary:hover {
+    border-color: var(--color-iris);
+    color: #4338ca;
+  }
+  .btn-dark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    border: 1px solid rgb(255 255 255 / 0.15);
+    transition:
+      border-color 0.2s ease,
+      color 0.2s ease;
+  }
+  .btn-dark:hover {
+    border-color: var(--color-mint);
+    color: var(--color-mint);
+  }
+
+  /* Cards: white, crisp border; hover = lift + teal/purple glow border */
+  .card {
+    position: relative;
+    border-radius: 1rem;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.04);
+    transition:
+      transform 0.3s ease,
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in oklab, var(--color-mint) 70%, var(--color-iris));
+    box-shadow:
+      0 0 0 3px color-mix(in oklab, var(--color-mint) 14%, transparent),
+      0 18px 40px -18px color-mix(in oklab, var(--color-iris) 45%, transparent);
+  }
+
+  .tag {
+    border-radius: 0.375rem;
+    border: 1px solid #e0e7ff;
+    background: #eef2ff;
+    padding: 0.2rem 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: #4338ca;
+  }
+
+  .input {
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    padding: 0.75rem 1rem;
+    color: var(--color-navy);
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+  .input::placeholder {
+    color: #94a3b8;
+  }
+  .input:focus {
+    outline: none;
+    border-color: var(--color-iris);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-iris) 18%, transparent);
+  }
+
+  /* Hand-drawn style highlighter under key words */
+  .mark {
+    background-repeat: no-repeat;
+    background-size: 100% 0.38em;
+    background-position: 0 88%;
+    padding: 0 0.06em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .mark-teal {
+    background-image: linear-gradient(
+      color-mix(in oklab, var(--color-mint) 55%, transparent),
+      color-mix(in oklab, var(--color-mint) 55%, transparent)
+    );
+  }
+  .mark-iris {
+    background-image: linear-gradient(
+      color-mix(in oklab, var(--color-iris) 30%, transparent),
+      color-mix(in oklab, var(--color-iris) 30%, transparent)
+    );
+  }
+
+  .hero-grid {
+    background-image:
+      linear-gradient(rgb(15 23 42 / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(15 23 42 / 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse 75% 70% at 60% 40%, #000 35%, transparent 80%);
+  }
+}
+
+/* Scroll reveal + hero entrance — subtle by design */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+.hero-in {
+  animation: hero-in 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.float-chip {
+  animation: float 6s ease-in-out infinite;
+}
+.caret {
+  animation: blink 1s steps(1) infinite;
+  color: #0d9488;
+}
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+@keyframes float {
+  50% {
+    transform: translateY(-8px);
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .hero-in,
+  .float-chip,
+  .caret {
+    animation: none;
+  }
+}
