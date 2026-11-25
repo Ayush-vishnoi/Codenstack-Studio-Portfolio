@@ -44,19 +44,29 @@ pnpm dev        # http://localhost:8443
 pnpm build      # production build in dist/
 ```
 
-## Deploy to Vercel
+## Deploy to Cloudflare Pages
+
+This is a fully static site (no backend, no SSR), so Cloudflare Pages serves it directly.
 
 1. Push this folder to a GitHub repository.
-2. On vercel.com → **Add New… → Project** → import the repo.
-3. Vercel auto-detects **Vite**: build command `pnpm build` (or `npm run build`), output directory `dist`. Click **Deploy**.
+2. Cloudflare dashboard → **Workers & Pages → Create → Pages → Connect to Git** → pick the repo.
+3. Build settings:
+   - Framework preset: **Vite**
+   - Build command: `pnpm build`
+   - Build output directory: `dist`
+   - Environment variable: `NODE_VERSION` = `22` (or rely on `.nvmrc`)
+4. Click **Save and Deploy**.
 
-## Connect codenstack.in
+`public/_redirects` contains `/*  /index.html  200`, which Cloudflare Pages copies into `dist/` and uses
+as the SPA fallback so `/services`, `/about`, `/contact` etc. work on direct load and refresh.
 
-1. Vercel → your project → **Settings → Domains** → add `codenstack.in` and `www.codenstack.in`.
-2. At your domain registrar's DNS settings add:
-   - `A` record, host `@`, value `76.76.21.21`
-   - `CNAME` record, host `www`, value `cname.vercel-dns.com`
-     (Or switch the domain's nameservers to Vercel's.) Use the exact values Vercel shows on the Domains page.
-3. Wait for DNS to propagate. Vercel issues HTTPS automatically.
+### Custom domain
+
+1. Pages project → **Custom domains** → add `codenstack.in` and `www.codenstack.in`.
+2. If the domain's DNS is on Cloudflare, records are created automatically. Otherwise add the
+   `CNAME` records Cloudflare shows at your registrar.
+3. HTTPS is issued automatically.
 4. Keep your demo subdomains (`hrms.`, `shop.`, `voice.`, `customeriq.`) pointing at their own hosts —
-   adding the apex domain to Vercel does not affect them.
+   adding the apex domain to Cloudflare Pages does not affect them.
+
+> `vercel.json` is kept for anyone deploying to Vercel instead; Cloudflare ignores it.

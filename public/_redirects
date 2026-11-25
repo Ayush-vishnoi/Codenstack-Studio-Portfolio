@@ -1,0 +1,3 @@
+# Cloudflare Pages SPA fallback: serve index.html for any non-asset path
+# so /services, /about, /contact etc. work on direct load and refresh.
+/*  /index.html  200

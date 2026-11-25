@@ -21,6 +21,7 @@ export function Products() {
           <p>Demo servers may take ~30 seconds to wake up on first load.</p>
         </Reveal>
 
+
         <div className="grid gap-6 md:grid-cols-2">
           {products.map((p, i) => (
             <Reveal key={p.id} delay={(i % 2) * 100}>
